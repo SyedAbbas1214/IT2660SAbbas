@@ -1,0 +1,52 @@
+package studentlistings;
+import javax.swing.JOptionPane;
+
+public class StudentListings
+{
+    private String name;
+    private String number;
+    private String gpa;
+  
+        public StudentListings()
+        {
+            name = "";
+            number = "";
+            gpa = "";
+        }
+     
+        public String toString()
+        {
+            return("Name is " + name + "\nNumber is " + number + "\nGPA is " + gpa );
+        }
+        public StudentListings deepCopy()
+        {
+            StudentListings clone = new StudentListings();
+            return clone;
+        }
+        public int compareTo(String targetKey)
+        {
+            return (name.compareTo(targetKey));
+        }
+        public void input()
+        {
+            name = JOptionPane.showInputDialog("Please enter the name: ");
+            number = JOptionPane.showInputDialog("Please enter a number");
+            gpa = JOptionPane.showInputDialog("Please enter a GPA:");
+        }
+    public static void main(String[] args)
+    {
+        StudentListings studentList = new StudentListings();
+        studentList.input();
+      
+        System.out.println(studentList.toString());
+        int name=studentList.compareTo("Jane Doe");
+        studentList.deepCopy();
+      
+        if(name==0)
+        {
+            System.out.println("This name is already in the database");
+        }
+        else
+            System.out.println("This name has been added to the database");
+        }
+    }
