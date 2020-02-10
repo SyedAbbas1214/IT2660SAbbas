@@ -1,0 +1,269 @@
+package student;
+
+import java.util.Scanner;
+
+import java.sql.*;
+
+public class Student
+
+{
+
+     // JDBC driver name and database URL
+
+     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+
+static final String DB_URL = "jdbc:mysql://localhost:3306/student";
+
+     // Database credentials
+
+     static final String USER = "root";
+
+     static final String PASS = "root";
+
+  
+
+     public static void main(String[] args)
+
+     {
+
+          Connection conn = null;
+
+          Statement stmt = null;
+
+          int no,n,c=0;
+
+          Scanner input = new Scanner(System.in);
+
+          try
+
+          {
+
+              Class.forName("com.mysql.jdbc.Driver");
+
+System.out.println("Connecting to a selected database...");
+
+conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+System.out.println("Connected database successfully...");
+
+System.out.println("Enter the number of students");
+
+              no = input.nextInt();
+
+              while(c==0)
+
+              {
+
+                   System.out.println("1.Insert");
+
+                   System.out.println("2.view");
+
+                   System.out.println("3.delete");
+
+System.out.println("4.view entire list in sorted order");
+
+                   System.out.println("5.exit");
+
+                   System.out.println("Enter your choice");
+
+                   n=input.nextInt();   
+
+                   switch (n)
+
+                   {
+
+                   case 1:
+
+                        for(int i=0;i<no;i++)
+
+                        {
+
+System.out.println("Enter the Id:");
+
+                             int id=input.nextInt();
+
+System.out.print("Enter the name:");
+
+                             input.nextLine();
+
+                             String name=input.nextLine();
+
+                             System.out.print("Enter grade1:");
+
+                             int g1=input.nextInt();
+
+                             System.out.print("Enter grade2:");
+
+                             int g2=input.nextInt();
+
+                             float avg=(g1+g2)/2;
+
+                             stmt = conn.createStatement();
+
+System.out.println("insering table in given database...");
+
+stmt.executeUpdate("insert into student_list values("+id+ ", '"+name+"',"+g1+","+g2+","+avg+")");
+
+System.out.println("Created table in given database...");
+
+                        }
+
+                        break;
+
+                   case 2:
+
+System.out.println("THE LIST OF STUDENTS");
+
+                        stmt = conn.createStatement();
+
+ResultSet rs = stmt.executeQuery("select * from student_list");
+
+                    while (rs.next())
+
+                    {
+
+                        int student_id = rs.getInt("id");
+
+                        String name = rs.getString("name");
+
+                        int grade1 = rs.getInt("grade1");
+
+                        int grade2 = rs.getInt("grade2");
+
+                        float average = rs.getFloat("avg");
+
+System.out.println(student_id + "\t" + name + "\t" + grade1 + "\t" + grade2+ "\t" + average);
+
+                    }
+
+                    break;
+
+                   case 3:
+
+System.out.println("ENTER STUDENT_ID TO DELETE");
+
+                        int std_id=input.nextInt();
+
+                        stmt = conn.createStatement();
+
+stmt.executeUpdate("delete from student_list where id="+std_id);
+
+                        System.out.println("Item deleted");
+
+                        break;
+
+             
+
+                   case 4:
+
+System.out.println("THE SORTED ORDER OF THE LIST ");
+
+rs = stmt.executeQuery("select * from student_list order by name asc");
+
+                        while (rs.next())
+
+                        {
+
+                             int student_id = rs.getInt("id");
+
+                        String name = rs.getString("name");
+
+                        int grade1 = rs.getInt("grade1");
+
+                        int grade2 = rs.getInt("grade2");
+
+                        float average = rs.getFloat("avg");
+
+System.out.println(student_id + "\t" + name + "\t" + grade1 + "\t" + grade2+ "\t" + average);
+
+                    }
+
+                        break;
+
+                 
+
+                   case 5:
+
+                        c++;
+
+                        break;
+
+                 
+
+                   default:
+
+                        break;
+
+                   }
+
+              }
+
+          }
+
+          catch(SQLException se)
+
+          {
+
+              //Handle errors for JDBC
+
+              se.printStackTrace();
+
+          }
+
+          catch(Exception e)
+
+          {
+
+              //Handle errors for Class.forName
+
+              e.printStackTrace();
+
+          }
+
+          finally
+
+          {
+
+              //finally block used to close resources
+
+              try
+
+              {
+
+                   if(stmt!=null)
+
+                        conn.close();
+
+              }
+
+              catch(SQLException se)
+
+              {
+
+              }
+
+              try
+
+              {
+
+                   if(conn!=null)
+
+                        conn.close();
+
+              }
+
+              catch(SQLException se)
+
+              {
+
+                   se.printStackTrace();
+
+              }//end finally try
+
+          }//end try
+
+          System.out.println("Goodbye!");
+
+     }//end main
+
+}//end JDBCExample
