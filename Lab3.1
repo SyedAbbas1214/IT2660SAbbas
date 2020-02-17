@@ -1,0 +1,223 @@
+Stack.java
+
+package stack;
+
+
+
+class Listing
+
+{
+
+int data;
+
+public Listing(int d) {
+
+this.data = d;
+
+}
+
+public Listing deepCopy()
+
+{
+
+return new Listing(data);
+
+}
+
+@Override
+
+public String toString() {
+
+return data + " ";
+
+}
+
+}
+
+//Stack class
+
+public class Stack {
+
+private Listing[] data;
+
+private int top;
+
+private int size;
+
+public Stack() {
+
+top = -1;
+
+size = 100;
+
+data = new Listing[100];
+
+}
+
+public Stack(int n) {
+
+top = -1;
+
+size = n;
+
+data = new Listing[n];
+
+}
+
+public boolean push(Listing newNode)
+
+{
+
+if(top == size-1)
+
+return false;
+
+else
+
+{
+
+top = top+1;
+
+data[top] = newNode.deepCopy();
+
+return true;
+
+}
+
+}
+
+public Listing pop()
+
+{
+
+int topLocation;
+
+if(top == -1)
+
+return null;
+
+else
+
+{
+
+topLocation = top;
+
+top = top - 1;
+
+return data[topLocation];
+
+}
+
+}
+
+public void showAll()
+
+{
+
+for(int i= top; i>= 0; i--)
+
+System.out.println(data[i].toString());
+
+}
+
+//clears the array and re-initializes the data members
+
+public void clear()
+
+{
+
+top = -1;
+
+size = 100;
+
+data = new Listing[100];
+
+}
+
+//checks for stack underflow
+
+public boolean isEmpty()
+
+{
+
+if(top == -1)
+
+return true;
+
+else return false;
+
+}
+
+//checks for stack overflow
+
+public boolean isFull()
+
+{
+
+if(top == size-1)
+
+return true;
+
+else return false;
+
+}
+
+//returns the top element in the stack array
+
+public Listing peek()
+
+{
+
+if(!isEmpty())
+
+return data[top];
+
+else return null;
+
+}
+
+}
+
+StackTester.java
+
+package stack;
+
+public class StackTester {
+
+public static void main(String[] args) {
+
+Listing node1 = new Listing(23);
+
+Listing node2 = new Listing(24);
+
+Listing node3 = new Listing(25);
+
+Stack stack = new Stack(3);
+
+System.out.println("\nNo elements added. Stack size is 3");
+
+System.out.println("Is Stack empty? " + stack.isEmpty());
+
+stack.push(node1);
+
+System.out.println("\nAfter adding one element.");
+
+System.out.println("Is Stack full? " + stack.isFull());
+
+stack.push(node2);
+
+stack.push(node3);
+
+System.out.println("\nAfter adding 3 elements.");
+
+System.out.println("Is Stack full? " + stack.isFull());
+
+System.out.println("\nTop element : " + stack.peek());
+
+System.out.println("\nElements in stack");
+
+stack.showAll();
+
+}
+
+}
