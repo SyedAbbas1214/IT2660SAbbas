@@ -1,0 +1,375 @@
+//ListingNode.java
+
+class ListingNode {
+
+    private listpro listing11;
+
+    private ListingNode nextnode;
+
+    public ListingNode(listpro listing11) {
+
+        this.listing11 = listing11;
+
+    }
+
+    public listpro getListing() {
+
+        return listing11;
+
+   }
+
+    public void setListing(listpro listing11) {
+
+        this.listing11 = listing11;
+
+    }
+
+    public ListingNode getnextnode() {
+
+        return nextnode;
+
+    }
+
+    public void setnextnode(ListingNode nextnode) {
+
+        this.nextnode = nextnode;
+
+    }
+
+}
+
+public class Listlinked {
+
+    private ListingNode headnode;
+
+    public Listlinked() {
+
+        headnode = null;
+
+    }
+
+    public void insert(listpro listing11) {
+
+        ListingNode listingNode = new ListingNode(listing11);
+
+        if(headnode == null) {
+
+            headnode = listingNode;
+
+        } else {
+
+            ListingNode tempval = headnode;
+
+            while (tempval.getnextnode() != null) {
+
+                tempval = tempval.getnextnode();
+
+            }
+
+            tempval.setnextnode(listingNode);
+
+        }
+
+    }
+
+    public listpro fetch(String name) {
+
+        ListingNode tempval = headnode;
+
+        while (tempval != null) {
+
+            if(tempval.getListing().getNamedata().equalsIgnoreCase(name)) {
+
+                return tempval.getListing();
+
+            }
+
+            tempval = tempval.getnextnode();
+
+        }
+
+        return null;
+
+    }
+
+    public boolean delete(String name) {
+
+        ListingNode tempval = headnode;
+
+        boolean found = false;
+
+        if(headnode != null) {
+
+           if(headnode.getListing().getNamedata().equalsIgnoreCase(name)) {
+
+                headnode = headnode.getnextnode();
+
+                found = true;
+
+            } else {
+
+                while (tempval.getnextnode() != null) {
+
+                    if (tempval.getnextnode().getListing().getNamedata().equalsIgnoreCase(name)) {
+
+                        found = true;
+
+                        tempval.setnextnode(tempval.getnextnode().getnextnode());
+
+                        break;
+
+                    }
+
+                    tempval = tempval.getnextnode();
+
+                }
+
+            }
+
+        }
+
+        return found;
+
+    }
+
+    public void printAll() {
+
+        ListingNode tempval = headnode;
+
+        while (tempval != null) {
+
+            System.out.println(tempval.getListing().toString());
+
+            tempval = tempval.getnextnode();
+
+        }
+
+    }
+
+}
+
+//listpro.java
+
+import javax.swing.*;
+
+public class listpro {
+
+    private String Name;
+
+    private int ID;
+
+    private float grade_point;
+
+    public listpro(){
+
+    }
+
+  public listpro(String Name, int ID, float grade_point){
+
+        this.Name = Name;
+
+        this.ID = ID;
+
+        this.grade_point = grade_point;
+
+    }
+
+    public String getNamedata() {
+
+        return Name;
+
+    }
+
+    public void setNamedata(String Name) {
+
+        this.Name = Name;
+
+    }
+
+    public int getID() {
+
+        return ID;
+
+    }
+
+    public void setID(int ID) {
+
+        this.ID = ID;
+
+    }
+
+    public float getgrade_point() {
+
+        return grade_point;
+
+    }
+
+    public void setgrade_point(float grade_point) {
+
+        this.grade_point = grade_point;
+
+    }
+
+    public listpro deepCopy(){
+
+        listpro clone = new listpro(Name,ID,grade_point);
+
+        return clone;
+
+    }
+
+    public String toString(){
+
+        return "Name : " + Name + "\nID :" + ID + "\nGrade points :" + grade_point;
+
+    }
+
+    public void input(){
+
+        Name = JOptionPane.showInputDialog("Enter a Name");
+
+        ID = Integer.parseInt(JOptionPane.showInputDialog("Enter an ID"));
+
+        grade_point = Float.parseFloat(JOptionPane.showInputDialog("Enter a grade point average"));
+
+    }
+
+}
+
+//driver.java
+
+import javax.swing.*;
+
+import java.util.Scanner;
+
+public class driver {
+
+    static Scanner indata = new Scanner(System.in);
+
+    static int choice() {
+
+        System.out.println("1. insert data");
+
+        System.out.println("2. fetch data");
+
+        System.out.println("3. delete data");
+
+        System.out.println("4. update data");
+
+        System.out.println("5. output student data");
+
+        System.out.println("6. exit the program");
+
+        System.out.print("enter choice: ");
+
+        return indata.nextInt();
+
+    }
+
+    public static void main(String[] args) {
+
+        int choice11;
+
+        Listlinked Listlinked = new Listlinked();
+
+        listpro listing11;
+
+        String name;
+
+        while (true) {
+
+            choice11 = choice();
+
+            switch (choice11) {
+
+                case 1:
+
+                    listing11 = new listpro();
+
+                    listing11.input();
+
+                    Listlinked.insert(listing11);
+
+                    System.out.println("operation finish");
+
+                    break;
+
+                case 2:
+
+                    name = JOptionPane.showInputDialog("Fetch the name");
+
+                    listing11 = Listlinked.fetch(name);
+
+                    if(listing11 == null)
+
+                        System.out.println("invalid structure");
+
+                    else {
+
+                        System.out.println(listing11.toString());
+
+                    }
+
+                    break;
+
+                case 3:
+
+                    name = JOptionPane.showInputDialog("Delete the name");
+
+                    if(Listlinked.delete(name)) {
+
+                        System.out.println("operation complete");
+
+                    } else {
+
+                        System.out.println("Invalid structure");
+
+                    }
+
+                    break;
+
+                case 4:
+
+                    name = JOptionPane.showInputDialog("update the name");
+
+                    listing11 = Listlinked.fetch(name);
+
+                    if(listing11 == null)
+
+                        System.out.println("invalid structure");
+
+                    else {
+
+                        listing11.input();
+
+                        System.out.println("operation finish");
+
+                    }
+
+                    break;
+
+                case 5:
+
+                    Listlinked.printAll();
+
+                    System.out.println("operation finish");
+
+                    break;
+
+                case 6:
+
+                    return;
+
+                default:
+
+                    System.out.println("Invalid choice. Please try again!!");
+
+                    break;
+
+            }
+
+        }
+
+    }
+
+}
