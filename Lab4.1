@@ -1,0 +1,67 @@
+package studentlistings;
+import javax.swing.JOptionPane;
+
+//Class definition
+public class StudentListings {
+  
+    //Class variables
+   private String Name;
+   private int Id_number;
+   private double Gpa;
+
+   //Constructor with no parameters
+   public StudentListings()
+   {
+       Name="abc";
+       Id_number=1234;
+       Gpa=0.0;
+   
+   }
+
+   //Method tostring definition
+   public String toString()
+   {
+        return("Name is " + Name +"\nIdentification number is " + Id_number +"\nGPA is " + Gpa+ "\n");
+   }
+
+   //method deepCopy definition
+   public StudentListings deepCopy( )
+   {
+      StudentListings clone = new StudentListings();
+      return clone;
+   }
+
+   //Method compareTo definition
+   public int compareTo(String targetKey)
+   {
+       return(Name.compareTo(targetKey));
+   }
+
+   //Method input definition
+   public void input()
+   {
+    Name = JOptionPane.showInputDialog("Enter the name");
+    Id_number= Integer.parseInt(JOptionPane.showInputDialog("Enter the ID"));
+    Gpa = Double.parseDouble(JOptionPane.showInputDialog("Enter the GPA"));
+    }
+
+   //Driver main method to test the functions
+    public static void main(String[] args) {
+      
+      StudentListings classlist= new StudentListings();
+    
+      classlist.input();
+    
+      System.out.println(classlist.toString());
+      int flag=classlist.compareTo("Tom");
+      classlist.deepCopy();
+      if(flag==0)
+      {
+          System.out.println("Tom is there in the list");
+      }
+      else
+          System.out.println("Tom is not there in the list");
+    
+    }
+  
+}
